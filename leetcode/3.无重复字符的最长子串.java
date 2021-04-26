@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 /*
  * @lc app=leetcode.cn id=3 lang=java
  *
@@ -63,7 +65,21 @@
 // @lc code=start
 class Solution {
     public int lengthOfLongestSubstring(String s) {
+        char[] strs = s.toCharArray();
+        HashMap<Character, Integer> charMap = new HashMap<>();
 
+        int result = 0;
+        int start = 0; // 记录子串起点位置
+        for (int i = 0; i < strs.length; i ++) {
+            if (!charMap.containsKey(strs[i])) {
+                charMap.put(strs[i], i);
+            } else {
+                start = Math.max(charMap.get(strs[i]) + 1, start);
+                charMap.put(strs[i], i);
+            }
+            result = Math.max(result, i - start + 1);
+        }
+        return result;
     }
 }
 // @lc code=end
