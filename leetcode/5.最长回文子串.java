@@ -60,7 +60,41 @@
 // @lc code=start
 class Solution {
     public String longestPalindrome(String s) {
+        int max = 0;
+        char[] strs = s.toCharArray();
+        String result = new String();
+        for (int i = 0; i < strs.length; i ++) {
+            // 奇数的情况
+            int index = 0;
+            for (index = 1; i + index < strs.length && i - index >= 0; index ++) {
+                if (strs[i - index] != strs[i + index]) {
+                    break;
+                }
+            }
+            index --;
+            if (index * 2 + 1 > max) {
+                max = index * 2 + 1;
+                result = s.substring(i - index, i + index + 1);
+            }
 
+            // 偶数的情况
+            if (i + 1 < strs.length && strs[i+1] == strs[i]) {
+                int j = i + 1;
+                index = 1;
+                while (i - index >= 0 && j + index < strs.length) {
+                    if (strs[i - index] != strs[j + index]) {
+                        break;
+                    }
+                    index ++;
+                }
+                index --;
+                if (index*2 + 2 > max) {
+                    max = index * 2 + 2;
+                    result = s.substring(i - index, j + index + 1);
+                }
+            }
+        }
+        return result;
     }
 }
 // @lc code=end
