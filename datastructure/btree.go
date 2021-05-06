@@ -35,7 +35,7 @@ func (b *BTree) Delete(item btree.Item) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	cloneTree := b.tree.Load().(*btree.BTree).Clone()
-	cloneTree.ReplaceOrInsert(item)
+	cloneTree.Delete(item)
 	b.tree.Store(cloneTree)
 }
 
