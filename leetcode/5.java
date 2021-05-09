@@ -60,6 +60,83 @@
 // @lc code=start
 class Solution {
     public String longestPalindrome(String s) {
+        return manacher(s);
+    }
+
+    private String manacher(String s) {
+        char[] strs = getCharArray(s);
+        int maxMid = 0, maxRight = 0;
+        int[] value = new int[strs.length];
+        for (int i = 1; i < strs.length - 1; i ++) {
+            int length = 1;
+            if (i < maxRight) {
+                length = Math.min(value[maxMid * 2 - i], maxRight - i);
+            }
+            while (i + length < strs.length && i - length >= 0 && strs[i+length] == strs[i-length]) {
+                length ++;
+            }
+            value[i] = length - 1;
+            if (i + value[i] > maxRight) {
+                maxRight = value[i] + i;
+                maxMid = i;
+            }
+        }
+        int max = 0;
+        for (int i = 0; i < strs.length - 1; i ++) {
+            if (value[i] > value[max] || (value[i] == value[max] && (i - value[i]) % 2 != 0)) {
+                max = i;
+            }
+        }
+        if (value[max] == 0) {
+            return s.length() <= 1 ? s : s.substring(0, 1);
+        }
+
+        StringBuffer sb = new StringBuffer();
+        for (int i = max - value[max]; i <= max + value[max]; i ++) {
+            if (strs[i] != '#') {
+                sb.append(strs[i]);
+            }
+        }
+        return sb.toString();
+    }
+
+    private char[] getCharArray(String s) {
+        char[] result = new char[s.length() * 2 + 1];
+        for (int i = 0; i < s.length(); i ++) {
+            result[i*2] = '#';
+            result[i*2+1] = s.charAt(i);
+        }
+        result[0] = '$'; result[result.length - 1] = '^';
+        return result;
+    }
+
+    private String dpPalindrome(String s) {
+        if (s.length() <= 1) {
+            return s;
+        }
+
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        String result = s.substring(0, 1);
+        char[] strs = s.toCharArray();
+
+        for (int i = 0; i < s.length(); i ++) {
+            dp[i][i] = true;
+        }
+
+        for (int j = 1; j < s.length(); j ++) {
+            for (int i = 0; i < j; i ++) {
+                dp[i][j] = j == i + 1  ? strs[i] == strs[j] : dp[i+1][j-1] && (strs[i] == strs[j]);
+                if (dp[i][j] && j - i + 1 > result.length()) {
+                    result = s.substring(i, j+1);
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+    private String forLoopPalindrome(String s) {
         int max = 0;
         char[] strs = s.toCharArray();
         String result = new String();
