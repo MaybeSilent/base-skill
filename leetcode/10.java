@@ -78,8 +78,31 @@
 // @lc code=start
 class Solution {
     public boolean isMatch(String s, String p) {
+        char[] sStr = s.toCharArray(), pStr = p.toCharArray();
+        boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
 
+        dp[0][0] = true;
+        for (int j = 1; j <= pStr.length; j++) {
+            if (pStr[j - 1] == '*' && j - 2 >= 0) { // 不包含前面内容
+                dp[0][j] = dp[0][j - 2];
+            }
+        }
+
+        for (int i = 1; i <= sStr.length; i++) {
+            for (int j = 1; j <= pStr.length; j++) {
+                if (sStr[i - 1] == pStr[j - 1] || pStr[j - 1] == '.') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else if (pStr[j - 1] == '*') {
+                    dp[i][j] = dp[i][j - 1] || dp[i][j - 2];
+
+                    if (pStr[j - 2] == sStr[i - 1] || pStr[j - 2] == '.') {
+                        dp[i][j] = dp[i - 1][j] || dp[i][j];
+                    }
+                }
+            }
+        }
+
+        return dp[sStr.length][pStr.length];
     }
 }
 // @lc code=end
-
