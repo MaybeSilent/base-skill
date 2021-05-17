@@ -69,21 +69,17 @@ class Solution {
             int left = i + 1, right = nums.length - 1;
             while (left < right) {
                 if (nums[left] + nums[right] + nums[i] > 0) {
-                    do {
-                        right--;
-                    } while (right > 0 && nums[right] == nums[right + 1]);
+                    right--;
                 } else if (nums[left] + nums[right] + nums[i] < 0) {
-                    do {
-                        left++;
-                    } while (left < nums.length && nums[left] == nums[left - 1]);
+                    left++;
                 } else {
-                    res.add(new ArrayList<Integer>(Arrays.asList(nums[i], nums[left], nums[right])));
-                    do {
-                        left++;
-                    } while (left < nums.length && nums[left] == nums[left - 1]);
-                    do {
-                        right--;
-                    } while (right > 0 && nums[right] == nums[right + 1]);
+                    List<Integer> last = res.size() > 0 ? res.get(res.size() - 1) : null;
+                    if (last == null || nums[i] != last.get(0) || nums[left] != last.get(1)
+                            || nums[right] != last.get(2)) {
+                        res.add(new ArrayList<Integer>(Arrays.asList(nums[i], nums[left], nums[right])));
+                    }
+                    left++;
+                    right--;
                 }
             }
         }
