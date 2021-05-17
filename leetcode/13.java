@@ -97,7 +97,60 @@ class Solution {
     HashSet<String> ones = new HashSet<>(Arrays.asList("I", "X", "C"));
 
     public int romanToInt(String s) {
+        char[] strs = s.toCharArray();
+        int res = 0;
 
+        for (int i = 0; i < strs.length; i++) {
+            switch (strs[i]) {
+                case 'I':
+                    if (i + 1 < strs.length && (strs[i + 1] == 'V' || strs[i + 1] == 'X')) {
+                        if (strs[i + 1] == 'V')
+                            res += 4;
+                        if (strs[i + 1] == 'X')
+                            res += 9;
+                        i++;
+                    } else {
+                        res += 1;
+                    }
+                    break;
+                case 'V':
+                    res += 5;
+                    break;
+                case 'X':
+                    if (i + 1 < strs.length && (strs[i + 1] == 'L' || strs[i + 1] == 'C')) {
+                        if (strs[i + 1] == 'L')
+                            res += 40;
+                        if (strs[i + 1] == 'C')
+                            res += 90;
+                        i++;
+                    } else {
+                        res += 10;
+                    }
+                    break;
+                case 'L':
+                    res += 50;
+                    break;
+                case 'C':
+                    if (i + 1 < strs.length && (strs[i + 1] == 'D' || strs[i + 1] == 'M')) {
+                        if (strs[i + 1] == 'D')
+                            res += 400;
+                        if (strs[i + 1] == 'M')
+                            res += 900;
+                        i++;
+                    } else {
+                        res += 100;
+                    }
+                    break;
+                case 'D':
+                    res += 500;
+                    break;
+                case 'M':
+                    res += 1000;
+                    break;
+            }
+        }
+
+        return res;
     }
 }
 // @lc code=end

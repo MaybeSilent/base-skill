@@ -48,8 +48,24 @@
 // @lc code=start
 class Solution {
     public String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0)
+            return "";
+        char[] res = strs[0].toCharArray();
+        int length = res.length;
 
+        for (int i = 1; i < strs.length && length > 0; i++) {
+            char[] compare = strs[i].toCharArray();
+            if (compare.length < length) {
+                length = compare.length;
+            }
+            for (int j = 0; j < length; j++) {
+                if (res[j] != compare[j]) {
+                    length = j;
+                    break;
+                }
+            }
+        }
+        return new String(res, 0, length);
     }
 }
 // @lc code=end
-
