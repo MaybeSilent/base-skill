@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.HashSet;
+
 /*
  * @lc app=leetcode.cn id=13 lang=java
  *
@@ -91,9 +94,10 @@
 
 // @lc code=start
 class Solution {
+    HashSet<String> ones = new HashSet<>(Arrays.asList("I", "X", "C"));
+
     public int romanToInt(String s) {
 
     }
 }
 // @lc code=end
-

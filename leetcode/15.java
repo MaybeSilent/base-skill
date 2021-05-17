@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=15 lang=java
  *
@@ -55,8 +59,10 @@
 // @lc code=start
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums);
 
+        return res;
     }
 }
 // @lc code=end
-

@@ -86,9 +86,22 @@
 
 // @lc code=start
 class Solution {
-    public String intToRoman(int num) {
+    String[] zero = new String[] { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+    String[] ten = new String[] { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
+    String[] hundred = new String[] { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
+    String[] thousand = new String[] { "", "M", "MM", "MMM" };
 
+    String[][] strIndex = new String[][] { zero, ten, hundred, thousand };
+
+    public String intToRoman(int num) {
+        StringBuffer res = new StringBuffer();
+        int multi = 0;
+        while (num != 0) {
+            res.insert(0, strIndex[multi][num % 10]);
+            num = num / 10;
+            multi++;
+        }
+        return res.toString();
     }
 }
 // @lc code=end
-
