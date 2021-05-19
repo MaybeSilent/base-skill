@@ -1,6 +1,8 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /*
  * @lc app=leetcode.cn id=18 lang=java
@@ -53,6 +55,7 @@ import java.util.HashSet;
 // @lc code=start
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
         Arrays.sort(nums);
         HashSet<Integer> numSet = new HashSet<>();
         for (int i = 0; i < nums.length; i++) {
@@ -65,16 +68,32 @@ class Solution {
             if (i > 0 && nums[i] == nums[i - 1])
                 continue;
             for (int j = i + 1; j < nums.length; j++) {
-                if (j > 0 && nums[j] == nums[j - 1])
+                if (j > i + 1 && nums[j] == nums[j - 1])
                     continue;
-                if (!numSet.contains(target - nums[i] - nums[j]))
+                int leftTarget = target - nums[i] - nums[j];
+                if (!numSet.contains(leftTarget))
                     continue;
                 int left = j + 1, right = nums.length - 1;
-                
+                while (left < right) {
+                    int subRes = leftTarget - nums[left] - nums[right];
+                    if (subRes > 0) {
+                        left++;
+                    } else if (subRes < 0) {
+                        right--;
+                    } else {
+                        List<Integer> last = res.size() == 0 ? null : res.get(res.size() - 1);
+                        if (last == null || last.get(0) != nums[i] || last.get(1) != nums[j]
+                                || last.get(2) != nums[left] || last.get(3) != nums[right]) {
+                            res.add(new ArrayList<>(Arrays.asList(nums[i], nums[j], nums[left], nums[right])));
+                        }
+                        left++;
+                        right--;
+                    }
+                }
             }
         }
 
-        return 
+        return res;
     }
 }
 // @lc code=end
