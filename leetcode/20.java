@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 /*
  * @lc app=leetcode.cn id=20 lang=java
  *
@@ -71,9 +73,28 @@
 
 // @lc code=start
 class Solution {
-    public boolean isValid(String s) {
+    HashMap<Character, Character> charMap = new HashMap<Character, Character>() {
+        {
+            put('(', ')');
+            put('[', ']');
+            put('{', '}');
+        }
+    };
 
+    public boolean isValid(String s) {
+        char[] stack = new char[s.length() + 1], strs = s.toCharArray();
+        int stackIndex = 1;
+        for (int i = 0; i < strs.length; i++) {
+            if (charMap.containsKey(strs[i])) {
+                stack[stackIndex++] = strs[i];
+            } else {
+                if (!charMap.containsKey(stack[stackIndex - 1]) || charMap.get(stack[stackIndex - 1]) != strs[i]) {
+                    return false;
+                }
+                stackIndex--;
+            }
+        }
+        return stackIndex == 1;
     }
 }
 // @lc code=end
-
