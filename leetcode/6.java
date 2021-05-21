@@ -71,8 +71,25 @@
 // @lc code=start
 class Solution {
     public String convert(String s, int numRows) {
+        if (numRows == 1) {
+            return s;
+        }
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < numRows; i++) {
+            int[] addNum = { (numRows - i - 1) * 2, i * 2 };
+            int addIndex = 0, index = i;
+            while (index < s.length()) {
+                sb.append(s.charAt(index));
 
+                if (addNum[addIndex] == 0) {
+                    addIndex = (addIndex + 1) % 2;
+                }
+                index += addNum[addIndex];
+                addIndex = (addIndex + 1) % 2;
+            }
+        }
+
+        return sb.toString();
     }
 }
 // @lc code=end
-
