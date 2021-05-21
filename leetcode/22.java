@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=22 lang=java
  *
@@ -44,8 +47,26 @@
 // @lc code=start
 class Solution {
     public List<String> generateParenthesis(int n) {
+        char[] strs = new char[n * 2];
+        List<String> res = new ArrayList<String>();
+        genParenthesisDfs(strs, res, 0, n, n);
+        return res;
+    }
 
+    public void genParenthesisDfs(char[] strs, List<String> res, int index, int leftLeft, int rightLeft) {
+        if (index == strs.length) {
+            res.add(new String(strs, 0, strs.length));
+            return;
+        }
+        if (leftLeft > 0) {
+            strs[index] = '(';
+            genParenthesisDfs(strs, res, index + 1, leftLeft - 1, rightLeft);
+        }
+
+        if (leftLeft < rightLeft) {
+            strs[index] = ')';
+            genParenthesisDfs(strs, res, index + 1, leftLeft, rightLeft - 1);
+        }
     }
 }
 // @lc code=end
-
