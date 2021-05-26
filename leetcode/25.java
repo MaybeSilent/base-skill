@@ -72,19 +72,43 @@
 
 // @lc code=start
 /**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
+ * Definition for singly-linked list. public class ListNode { int val; ListNode
+ * next; ListNode() {} ListNode(int val) { this.val = val; } ListNode(int val,
+ * ListNode next) { this.val = val; this.next = next; } }
  */
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
+        if (k <= 1) {
+            return head;
+        }
+        ListNode res = new ListNode();
+        res.next = head;
+        ListNode temp = res;
+        while (temp != null && temp.next != null) {
+            ListNode[] nodes = reverse(temp.next, k);
+            temp.next = nodes[1];
+            temp = nodes[0];
+        }
+        return res.next;
+    }
 
+    public ListNode[] reverse(ListNode head, int k) {
+        ListNode temp = head;
+        for (int i = 1; i < k; i++) {
+            temp = temp.next;
+            if (temp == null) {
+                return new ListNode[] { null, head };
+            }
+        }
+        ListNode prev = temp.next;
+        ListNode cur = head;
+        for (int i = 0; i < k; i++) {
+            temp = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = temp;
+        }
+        return new ListNode[] { head, prev };
     }
 }
 // @lc code=end
-
