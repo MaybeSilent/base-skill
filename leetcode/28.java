@@ -64,8 +64,25 @@
 // @lc code=start
 class Solution {
     public int strStr(String haystack, String needle) {
+        if (needle.isEmpty())
+            return 0;
+        if (haystack.isEmpty())
+            return -1;
 
+        char[] hayStrs = haystack.toCharArray();
+        char[] needleStrs = needle.toCharArray();
+        for (int i = 0; i <= hayStrs.length - needleStrs.length; i++) {
+            boolean same = true;
+            for (int j = 0; j < needleStrs.length; j++) {
+                if (needleStrs[j] != hayStrs[i + j]) {
+                    same = false;
+                    break;
+                }
+            }
+            if (same)
+                return i;
+        }
+        return -1;
     }
 }
 // @lc code=end
-
