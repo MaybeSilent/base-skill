@@ -49,7 +49,11 @@
 // @lc code=start
 class Solution {
     public int divide(int dividend, int divisor) {
-
+        long res = (long)dividend / (long)divisor;
+        if (res > Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        }
+        return (int)res;
     }
 }
 // @lc code=end
