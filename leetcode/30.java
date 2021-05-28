@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=30 lang=java
  *
@@ -60,8 +64,43 @@
 // @lc code=start
 class Solution {
     public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> res = new ArrayList<Integer>();
 
+        int min = 0;
+        for (int i = 0; i < words.length; i++) {
+            min += words[i].length();
+        }
+        Arrays.sort(words);
+        for (int i = 0; i <= s.length() - min; i++) {
+            boolean[] used = new boolean[words.length];
+            if (dfs(s, i, words, used, 0)) {
+                res.add(i);
+            }
+        }
+        return res;
+    }
+
+    public boolean dfs(String s, int index, String[] words, boolean[] used, int usedCount) {
+        if (usedCount == used.length)
+            return true;
+        if (index >= s.length())
+            return false;
+        for (int i = 0; i < words.length; i++) {
+            if (!used[i] && equal(s, index, words[i])) {
+                used[i] = true;
+                boolean res = dfs(s, index + words[i].length(), words, used, usedCount + 1);
+                if (res)
+                    return true;
+                used[i] = false;
+                while (i + 1 < words.length && words[i].equals(words[i + 1]))
+                    i++;
+            }
+        }
+        return false;
+    }
+
+    public boolean equal(String s, int index, String word) {
+        return s.startsWith(word, index);
     }
 }
 // @lc code=end
-
