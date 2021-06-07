@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*
  * @lc app=leetcode.cn id=31 lang=java
  *
@@ -63,8 +65,46 @@
 // @lc code=start
 class Solution {
     public void nextPermutation(int[] nums) {
+        int index = getReverseIncreaseIndex(nums);
+        if (index < 0) {
+            reverseNums(nums);
+            return;
+        }
 
+        for (int i = nums.length - 1; i > index; i--) {
+            if (nums[i] > nums[index]) {
+                swap(nums, i, index);
+                Arrays.sort(nums, index + 1, nums.length);
+                return;
+            }
+        }
     }
+
+    int getReverseIncreaseIndex(int[] nums) {
+        for (int i = nums.length - 1; i >= 0; i--) {
+            if (i == 0 || nums[i] > nums[i - 1]) {
+                return i - 1;
+            }
+        }
+        return -1;
+    }
+
+    void reverseNums(int[] nums) {
+        int len = nums.length / 2;
+        int temp = 0;
+        for (int i = 0; i < len; i++) {
+            int tail = nums.length - 1 - i;
+            temp = nums[i];
+            nums[i] = nums[tail];
+            nums[tail] = temp;
+        }
+    }
+
+    void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
 }
 // @lc code=end
-
