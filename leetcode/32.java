@@ -58,8 +58,28 @@
 // @lc code=start
 class Solution {
     public int longestValidParentheses(String s) {
+        int[] stack = new int[s.length()];
+        int index = 0;
 
+        int res = 0;
+        char[] strs = s.toCharArray();
+        for (int i = 0; i < strs.length; i++) {
+            if (strs[i] == '(') {
+                stack[index++] = i;
+            } else {
+                if (index > 0 && strs[stack[index - 1]] == '(') {
+                    index--; //
+                    if (index > 0) {
+                        res = Math.max(res, i - stack[index - 1]);
+                    } else {
+                        res = Math.max(res, i + 1);
+                    }
+                } else {
+                    stack[index++] = i;
+                }
+            }
+        }
+        return res;
     }
 }
 // @lc code=end
-
