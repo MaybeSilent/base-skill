@@ -59,8 +59,25 @@
 // @lc code=start
 class Solution {
     public int[] searchRange(int[] nums, int target) {
+        int left = searchMax(nums, target - 1);
+        int right = searchMax(nums, target);
+        if (left >= right) {
+            return new int[] { -1, -1 };
+        }
+        return new int[] { left, right - 1 };
+    }
 
+    private int searchMax(int[] nums, int target) {
+        int start = 0, end = nums.length - 1;
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] > target) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
     }
 }
 // @lc code=end
-
