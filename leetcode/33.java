@@ -64,8 +64,12 @@
 // @lc code=start
 class Solution {
     public int search(int[] nums, int target) {
+        // 先利用二分查找，找出旋转点
+        // 再根据旋转点为边界，进行二分查找
+    }
 
+    private int getNumsIndex(int[] nums) {
+        
     }
 }
 // @lc code=end
-
