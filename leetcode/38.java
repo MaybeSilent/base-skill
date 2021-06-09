@@ -82,8 +82,28 @@
 // @lc code=start
 class Solution {
     public String countAndSay(int n) {
-
+        StringBuffer res = new StringBuffer("1");
+        for (int i = 0; i < n - 1; i++) {
+            StringBuffer newBuffer = new StringBuffer();
+            char temp = res.charAt(0);
+            int count = 0;
+            for (int j = 0; j < res.length(); j++) {
+                if (temp == res.charAt(j)) {
+                    count++;
+                } else {
+                    newBuffer.append(count);
+                    newBuffer.append(temp);
+                    count = 1;
+                    temp = res.charAt(j);
+                }
+            }
+            if (count != 0) {
+                newBuffer.append(count);
+                newBuffer.append(temp);
+            }
+            res = newBuffer;
+        }
+        return res.toString();
     }
 }
 // @lc code=end
-
