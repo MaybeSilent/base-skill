@@ -80,8 +80,25 @@
 // @lc code=start
 class Solution {
     public boolean isValidSudoku(char[][] board) {
+        boolean[][][] box = new boolean[3][3][10];
+        boolean[][] row = new boolean[9][10];
+        boolean[][] column = new boolean[9][10];
 
+        // 先判断数独是否有效
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] != '.') {
+                    int index = board[i][j] - '0';
+                    if (column[j][index] == true || row[i][index] == true || box[i / 3][j / 3][index] == true) {
+                        return false;
+                    }
+                    column[j][index] = true;
+                    row[i][index] = true;
+                    box[i / 3][j / 3][index] = true;
+                }
+            }
+        }
+        return true;
     }
 }
 // @lc code=end
-

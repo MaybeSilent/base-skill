@@ -60,9 +60,51 @@
 
 // @lc code=start
 class Solution {
-    public void solveSudoku(char[][] board) {
 
+    boolean[][][] box = new boolean[3][3][10];
+    boolean[][] row = new boolean[9][10];
+    boolean[][] column = new boolean[9][10];
+
+    public void solveSudoku(char[][] board) {
+        // 保证有解，直接dfs
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] != '.') {
+                    int index = board[i][j] - '0';
+                    column[j][index] = true;
+                    row[i][index] = true;
+                    box[i / 3][j / 3][index] = true;
+                }
+            }
+        }
+        dfs(board, 0);
+    }
+
+    private boolean dfs(char[][] board, int index) {
+        if (index >= 81) {
+            return true;
+        }
+        int i = index / 9, j = index % 9;
+        if (board[i][j] == '.') {
+            for (int k = 1; k < 10; k++) {
+                if (!column[j][k] && !row[i][k] && !box[i / 3][j / 3][k]) {
+                    column[j][k] = true;
+                    row[i][k] = true;
+                    box[i / 3][j / 3][k] = true;
+                    board[i][j] = (char) ('0' + k);
+                    if (dfs(board, index + 1)) {
+                        return true;
+                    }
+                    column[j][k] = false;
+                    row[i][k] = false;
+                    box[i / 3][j / 3][k] = false;
+                }
+            }
+            board[i][j] = '.';
+        } else {
+            return dfs(board, index + 1);
+        }
+        return false;
     }
 }
 // @lc code=end
-
