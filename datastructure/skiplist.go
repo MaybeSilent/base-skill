@@ -5,27 +5,21 @@ import (
 	"time"
 )
 
-type Comparator interface {
-	Less(comparator Comparator) bool
-	Equals(comparator Comparator) bool
-}
-
 type Node struct {
-	Value     Comparator // 跳表当前值
-	Level     int        // 当前跳表的层次
-	NextNodes []*Node    // 后续节点
+	Value     int     // 跳表当前值
+	Level     int     // 当前跳表的层次
+	NextNodes []*Node // 后续节点
 }
 
 type SkipList struct {
-	random      rand.Rand // 随机数生成器
-	maxLevel    int       // 最大节点层数
-	head        *Node     // 头节点，无具体值
+	random      *rand.Rand // 随机数生成器
+	maxLevel    int        // 最大节点层数
+	head        *Node      // 头节点，无具体值
 	probability float32
 }
 
 func NewSkipList() *SkipList {
-	random := rand.Rand{}
-	random.Seed(time.Now().Unix())
+	random := rand.New(rand.NewSource(time.Now().Unix()))
 	return &SkipList{
 		random:      random,
 		maxLevel:    1,
@@ -36,7 +30,7 @@ func NewSkipList() *SkipList {
 	}
 }
 
-func (s *SkipList) Add(comparator Comparator) {
+func (s *SkipList) Add(comparator int) {
 	level := s.getLevel() // 获取新节点的level
 	if level > s.maxLevel {
 		s.maxLevel = level
@@ -46,7 +40,7 @@ func (s *SkipList) Add(comparator Comparator) {
 	newNode := &Node{Value: comparator, Level: level, NextNodes: make([]*Node, level)}
 	curNode := s.head
 	for i := s.maxLevel - 1; i >= 0; i-- {
-		for curNode.NextNodes[i] != nil && curNode.NextNodes[i].Value.Less(comparator) {
+		for curNode.NextNodes[i] != nil && curNode.NextNodes[i].Value < comparator {
 			curNode = curNode.NextNodes[i]
 		}
 		// 插入相应的节点
@@ -58,35 +52,35 @@ func (s *SkipList) Add(comparator Comparator) {
 }
 
 // 通过随机数获取当前等级
-func (s *SkipList) getLevel() (level int) {
-	for level <= s.maxLevel {
-		if s.random.Float32() < s.probability {
-			level++
-		}
+func (s *SkipList) getLevel() int {
+	level := 1
+	for s.random.Float32() < s.probability && level <= s.maxLevel {
+		level++
 	}
+
 	return level
 }
 
-func (s *SkipList) Delete(comparator Comparator) {
+func (s *SkipList) Delete(comparator int) {
 	curNode := s.head
 	for i := s.maxLevel - 1; i >= 0; i-- {
 		// 命中相等的情况
-		for curNode.NextNodes[i] != nil && curNode.NextNodes[i].Value.Less(comparator) {
+		for curNode.NextNodes[i] != nil && curNode.NextNodes[i].Value < comparator {
 			curNode = curNode.NextNodes[i]
 		}
-		if curNode.NextNodes[i] != nil && curNode.NextNodes[i].Value.Equals(comparator) {
+		if curNode.NextNodes[i] != nil && curNode.NextNodes[i].Value == comparator {
 			curNode.NextNodes[i] = curNode.NextNodes[i].NextNodes[i]
 		}
 	}
 }
 
-func (s *SkipList) Contains(comparator Comparator) bool {
+func (s *SkipList) Contains(comparator int) bool {
 	curNode := s.head
 	for i := s.maxLevel - 1; i >= 0; i-- {
-		for curNode.NextNodes[i] != nil && curNode.NextNodes[i].Value.Less(comparator) {
+		for curNode.NextNodes[i] != nil && curNode.NextNodes[i].Value < comparator {
 			curNode = curNode.NextNodes[i]
 		}
-		if curNode.NextNodes[i] != nil && curNode.NextNodes[i].Value.Equals(comparator) {
+		if curNode.NextNodes[i] != nil && curNode.NextNodes[i].Value == comparator {
 			return true
 		}
 	}
