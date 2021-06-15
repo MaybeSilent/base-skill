@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /*
  * @lc app=leetcode.cn id=39 lang=java
  *
@@ -59,9 +62,54 @@
 
 // @lc code=start
 class Solution {
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    HashMap<Integer, List<List<Integer>>> res = new HashMap<>(); // 记忆化搜索的存储结果
+    {
+        res.put(0, new ArrayList<>());
+        res.get(0).add(new ArrayList<>());
+    }
 
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        return combinationSum(candidates, target, 0);
+    }
+
+    private List<List<Integer>> combinationSum(int[] candidates, int target, int index) {
+        if (res.containsKey(target)) {
+            return res.get(target);
+        }
+
+        List<List<Integer>> targetList = new ArrayList<>(); // 结果为target的数组值
+        if (target < 0) {
+            return targetList;
+        }
+        for (int i = index; i < candidates.length; i++) {
+            List<List<Integer>> tempList = combinationSum(candidates, target - candidates[i], i);
+            for (int j = 0; j < tempList.size(); j++) {
+                ArrayList<Integer> addList = new ArrayList<>(tempList.get(j));
+                addList.add(candidates[i]);
+                // AddUniqueList(targetList, addList);
+                targetList.add(addList);
+            }
+        }
+        return targetList;
+    }
+
+    // 新增结果的时候去重
+    private void AddUniqueList(List<List<Integer>> targetList, List<Integer> addList) {
+        for (int i = 0; i < targetList.size(); i++) {
+            if (targetList.get(i).size() != addList.size())
+                continue;
+            boolean sameFlag = true;
+            for (int j = 0; j < addList.size(); j++) {
+                if (addList.get(j) != targetList.get(i).get(j)) {
+                    sameFlag = false;
+                    break;
+                }
+            }
+            if (sameFlag) {
+                return;
+            }
+        }
+        targetList.add(addList);
     }
 }
 // @lc code=end
-
