@@ -1,3 +1,5 @@
+import java.util.PriorityQueue;
+
 /*
  * @lc app=leetcode.cn id=23 lang=java
  *
@@ -62,19 +64,32 @@
 
 // @lc code=start
 /**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
+ * Definition for singly-linked list. public class ListNode { int val; ListNode
+ * next; ListNode() {} ListNode(int val) { this.val = val; } ListNode(int val,
+ * ListNode next) { this.val = val; this.next = next; } }
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-
+        if (lists.length == 0)
+            return null;
+        PriorityQueue<ListNode> pq = new PriorityQueue<ListNode>(lists.length,
+                (ListNode l1, ListNode l2) -> l1.val - l2.val);
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null) {
+                pq.offer(lists[i]);
+            }
+        }
+        ListNode res = new ListNode();
+        ListNode temp = res;
+        while (pq.size() != 0) {
+            ListNode next = pq.poll();
+            if (next.next != null) {
+                pq.offer(next.next);
+            }
+            temp.next = next;
+            temp = temp.next;
+        }
+        return res.next;
     }
 }
 // @lc code=end
-
