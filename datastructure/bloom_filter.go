@@ -21,7 +21,7 @@ func NewBloomFilter(n int, fpp float64) *BloomFilter {
 	numHash := int(math.Ln2 * float64(arrayLen) / float64(n)) // hash函数也可根据计算公式进行计算
 	return &BloomFilter{
 		NumHash: numHash,
-		numBit:  make([]uint64, arrayLen),
+		numBit:  make([]uint64, arrayLen), // 数组最大为 2 ** 32 - 1 bit，即512MB内存
 	}
 }
 
@@ -31,7 +31,7 @@ func (b *BloomFilter) Add(val string) {
 		hash := FnvHash64WithNum(val, i)
 		index := hash / 64
 		bits := hash % 64
-		b.numBit[index] &= uint64(1 << bits)
+		b.numBit[index] |= uint64(1 << bits)
 	}
 }
 
