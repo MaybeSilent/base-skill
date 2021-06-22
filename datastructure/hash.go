@@ -26,3 +26,13 @@ func FnvaHash64(s string) uint64 {
 	}
 	return res
 }
+
+// Fnv with nums
+func FnvHash64WithNum(s string, num int) uint64 {
+	res := uint64(offset64)
+	for _, b := range []byte(s) {
+		res *= prime64 * uint64(num)
+		res ^= uint64(b)
+	}
+	return res
+}

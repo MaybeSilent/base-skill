@@ -25,11 +25,25 @@ func NewBloomFilter(n int, fpp float64) *BloomFilter {
 	}
 }
 
-func (b *BloomFilter) Add(val uint64) {
-
+// 布隆过滤器增加值
+func (b *BloomFilter) Add(val string) {
+	for i := 1; i <= b.NumHash; i++ {
+		hash := FnvHash64WithNum(val, i)
+		index := hash / 64
+		bits := hash % 64
+		b.numBit[index] &= uint64(1 << bits)
+	}
 }
 
-func (b *BloomFilter) Contains(val uint64) bool {
+func (b *BloomFilter) Contains(val string) bool {
+	for i := 1; i <= b.NumHash; i++ {
+		hash := FnvHash64WithNum(val, i)
+		index := hash / 64
+		bits := hash % 64
+		if b.numBit[index]&uint64(1<<bits) == 0 {
+			return false
+		}
+	}
 	return true
 }
 

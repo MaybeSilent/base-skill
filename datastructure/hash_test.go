@@ -17,6 +17,10 @@ func TestFnvHash(t *testing.T) {
 	if res != res1 {
 		t.Fatal("error not equal with gopkg hash")
 	}
+	for i := 1; i <= 10; i++ {
+		t.Log(FnvHash64WithNum("hello world", i))
+	}
+
 }
 
 // Fnv-a hash算法
