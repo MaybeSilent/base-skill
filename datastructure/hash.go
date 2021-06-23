@@ -36,3 +36,23 @@ func FnvHash64WithNum(s string, num int) uint64 {
 	}
 	return res
 }
+
+// Fnv的hash方法
+func FnvHash32(s string) uint32 {
+	res := uint32(offset32)
+	for _, b := range []byte(s) {
+		res *= prime32
+		res ^= uint32(b)
+	}
+	return res
+}
+
+// Fnv with nums
+func FnvHash32WithNum(s string, num int) uint32 {
+	res := uint32(offset32)
+	for _, b := range []byte(s) {
+		res *= prime32 * uint32(num)
+		res ^= uint32(b)
+	}
+	return res
+}
