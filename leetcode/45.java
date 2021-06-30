@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*
  * @lc app=leetcode.cn id=45 lang=java
  *
@@ -53,8 +55,26 @@
 // @lc code=start
 class Solution {
     public int jump(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int[] minJump = new int[nums.length];
+        Arrays.fill(minJump, Integer.MAX_VALUE);
+        minJump[0] = 0;
+        // 最小的跳数
+        for (int i = 0; i < nums.length; i++) {
+            int min = minJump[i] + 1;
+            for (int j = i; j <= nums[i] + i && j < nums.length; j++) {
+                if (minJump[j] > min) {
+                    minJump[j] = min;
+                }
+                if (j == nums.length - 1) {
+                    return minJump[nums.length - 1];
+                }
+            }
+        }
 
+        return minJump[nums.length - 1];
     }
 }
 // @lc code=end
-
