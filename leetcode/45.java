@@ -72,7 +72,6 @@ class Solution {
                     return minJump[nums.length - 1];
                 }
             }
-        }
 
         return minJump[nums.length - 1];
     }

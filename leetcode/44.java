@@ -75,8 +75,27 @@
 // @lc code=start
 class Solution {
     public boolean isMatch(String s, String p) {
-        
+        boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
+        dp[0][0] = true;
+        // * 与 空字符串的比较
+        for (int i = 0; i < p.length() && p.charAt(i) == '*'; i++) {
+            dp[0][i + 1] = true;
+        }
+
+        char[] sStr = s.toCharArray();
+        char[] pStr = p.toCharArray();
+
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < p.length(); j++) {
+                if (sStr[i] == pStr[j] || pStr[j] == '?') {
+                    dp[i + 1][j + 1] = dp[i][j];
+                } else if (pStr[j] == '*') {
+                    dp[i + 1][j + 1] = dp[i + 1][j] || dp[i][j] || dp[i][j + 1];
+                }
+            }
+        }
+
+        return dp[s.length()][p.length()];
     }
 }
 // @lc code=end
-
