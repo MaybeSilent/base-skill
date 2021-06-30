@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=46 lang=java
  *
@@ -52,9 +56,27 @@
 
 // @lc code=start
 class Solution {
-    public List<List<Integer>> permute(int[] nums) {
+    List<List<Integer>> res = new ArrayList<>();
 
+    public List<List<Integer>> permute(int[] nums) {
+        dfs(nums, new boolean[nums.length], new LinkedList<>());
+        return res;
+    }
+
+    private void dfs(int[] nums, boolean[] visited, LinkedList<Integer> list) {
+        if (list.size() == visited.length) {
+            res.add((List<Integer>) list.clone());
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                list.add(nums[i]);
+                dfs(nums, visited, list);
+                list.removeLast();
+                visited[i] = false;
+            }
+        }
     }
 }
 // @lc code=end
-
