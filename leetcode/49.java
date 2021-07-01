@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=49 lang=java
  *
@@ -38,7 +43,32 @@
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
 
+        HashMap<String, List<String>> map = new HashMap<>();
+        for (String s : strs) {
+            String keyStr = convertStr(s);
+            if (map.containsKey(keyStr)) {
+                map.get(keyStr).add(s);
+            } else {
+                ArrayList<String> list = new ArrayList<>();
+                list.add(s);
+                map.put(keyStr, list);
+            }
+        }
+
+        List<List<String>> res = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+            res.add(entry.getValue());
+        }
+        return res;
+    }
+
+    private String convertStr(String str) {
+        char[] res = new char[26];
+        char[] strs = str.toCharArray();
+        for (char c : strs) {
+            res[c - 'a']++;
+        }
+        return new String(res);
     }
 }
 // @lc code=end
-
