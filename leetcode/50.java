@@ -54,8 +54,23 @@
 // @lc code=start
 class Solution {
     public double myPow(double x, int n) {
+        if (n == 0)
+            return 1;
 
+        int absN = Math.abs(n);
+        // System.out.println(absN);
+
+        // 对TLE进行特殊处理
+        double val = x;
+        double res = 1.0;
+        while (absN != 0) {
+            if ((absN & 1) != 0)
+                res *= val;
+            val *= val;
+            absN >>>= 1;
+        }
+
+        return n < 0 ? 1 / res : res;
     }
 }
 // @lc code=end
-
