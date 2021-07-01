@@ -58,7 +58,6 @@ class Solution {
             return 1;
 
         int absN = Math.abs(n);
-        // System.out.println(absN);
 
         // 对TLE进行特殊处理
         double val = x;
