@@ -73,18 +73,12 @@ class Solution {
 
                 int nextX, nextY;
 
-                // System.out.println(nowX + " " + nowY);
-                // System.out.println(storeVal);
-                // System.out.println(">>>>>>>>>");
-
                 int change = len - j;
                 int[][] caculate = new int[][] { { j, change }, { change, -j }, { -j, -change }, { -change, j } };
 
                 for (int k = 0; k < caculate.length; k++) {
                     nextX = nowX + caculate[k][0];
                     nextY = nowY + caculate[k][1];
-                    // System.out.println(nextX + " " + nextY);
-                    // System.out.println(storeVal);
                     int temp = matrix[nextX][nextY];
                     matrix[nextX][nextY] = storeVal;
                     storeVal = temp;
