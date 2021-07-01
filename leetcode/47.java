@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*
  * @lc app=leetcode.cn id=47 lang=java
  *
@@ -47,9 +49,32 @@
 
 // @lc code=start
 class Solution {
-    public List<List<Integer>> permuteUnique(int[] nums) {
+    List<List<Integer>> res = new ArrayList<>();
 
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        Arrays.sort(nums);
+        dfs(nums, new boolean[nums.length], new LinkedList<>());
+        return res;
+    }
+
+    private void dfs(int[] nums, boolean[] visited, LinkedList<Integer> list) {
+        if (list.size() == visited.length) {
+            res.add((List<Integer>) list.clone());
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (!visited[i]) {
+                if (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1])
+                    continue;
+
+                visited[i] = true;
+                list.add(nums[i]);
+                dfs(nums, visited, list);
+                list.removeLast();
+                visited[i] = false;
+            }
+        }
     }
 }
-// @lc code=end
 
+// @lc code=end
