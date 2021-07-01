@@ -55,6 +55,22 @@ import java.util.Arrays;
 // @lc code=start
 class Solution {
     public int jump(int[] nums) {
+        int maxPosition = 0; //
+        int end = 0; // 当前跳数的右边界
+        int step = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            maxPosition = Math.max(i + nums[i], maxPosition);
+            if (i == end) {
+                end = maxPosition;
+                step++;
+                if (maxPosition >= nums.length - 1)
+                    break;
+            }
+        }
+        return step;
+    }
+
+    public int jumpslow(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }
@@ -72,7 +88,7 @@ class Solution {
                     return minJump[nums.length - 1];
                 }
             }
-
+        }
         return minJump[nums.length - 1];
     }
 }
