@@ -63,8 +63,37 @@
 // @lc code=start
 class Solution {
     public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 0; i < n / 2; i++) { //
+            int len = n - i * 2 - 1;
 
+            for (int j = 0; j < len; j++) {
+                int nowX = i, nowY = i + j;
+                int storeVal = matrix[nowX][nowY];
+
+                int nextX, nextY;
+
+                // System.out.println(nowX + " " + nowY);
+                // System.out.println(storeVal);
+                // System.out.println(">>>>>>>>>");
+
+                int change = len - j;
+                int[][] caculate = new int[][] { { j, change }, { change, -j }, { -j, -change }, { -change, j } };
+
+                for (int k = 0; k < caculate.length; k++) {
+                    nextX = nowX + caculate[k][0];
+                    nextY = nowY + caculate[k][1];
+                    // System.out.println(nextX + " " + nextY);
+                    // System.out.println(storeVal);
+                    int temp = matrix[nextX][nextY];
+                    matrix[nextX][nextY] = storeVal;
+                    storeVal = temp;
+                    nowX = nextX;
+                    nowY = nextY;
+                }
+
+            }
+        }
     }
 }
 // @lc code=end
-
