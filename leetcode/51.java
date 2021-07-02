@@ -1,3 +1,7 @@
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /*
  * @lc app=leetcode.cn id=51 lang=java
  *
@@ -53,9 +57,43 @@
 
 // @lc code=start
 class Solution {
-    public List<List<String>> solveNQueens(int n) {
+    List<List<String>> res = new ArrayList<>();
 
+    public List<List<String>> solveNQueens(int n) {
+        dfs(new ArrayList<Integer>(), n);
+        return res;
+    }
+
+    public void dfs(List<Integer> list, int n) {
+        if (list.size() == n) {
+            // 所有节点都符合条件
+            List<String> ans = new ArrayList<String>();
+            for (int i = 0; i < n; i++) {
+                char[] line = new char[n];
+                Arrays.fill(line, '.');
+                line[list.get(i)] = 'Q';
+                ans.add(new String(line));
+            }
+            res.add(ans);
+        }
+        // dfs遍历可能的条件
+        for (int i = 0; i < n; i++) {
+            int lineX = list.size();
+            boolean valid = true;
+
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j) == i || Math.abs(lineX - j) == Math.abs(list.get(j) - i)) {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid) {
+                list.add(i);// 进行下一次的遍历
+                dfs(list, n);
+                list.remove(list.size() - 1);
+            }
+        }
     }
 }
 // @lc code=end
-

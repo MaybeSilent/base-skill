@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /*
  * @lc app=leetcode.cn id=52 lang=java
  *
@@ -51,9 +53,35 @@
 
 // @lc code=start
 class Solution {
-    public int totalNQueens(int n) {
+    int res = 0;
 
+    public int totalNQueens(int n) {
+        dfs(new ArrayList<>(), n);
+        return res;
+    }
+
+    public void dfs(List<Integer> list, int n) {
+        if (list.size() == n) {
+            res++;
+        }
+        // dfs遍历可能的条件
+        for (int i = 0; i < n; i++) {
+            int lineX = list.size();
+            boolean valid = true;
+
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j) == i || Math.abs(lineX - j) == Math.abs(list.get(j) - i)) {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid) {
+                list.add(i);// 进行下一次的遍历
+                dfs(list, n);
+                list.remove(list.size() - 1);
+            }
+        }
     }
 }
 // @lc code=end
-
