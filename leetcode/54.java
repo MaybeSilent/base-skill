@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=54 lang=java
  *
@@ -46,9 +49,51 @@
 
 // @lc code=start
 class Solution {
-    public List<Integer> spiralOrder(int[][] matrix) {
+    List<Integer> res = new ArrayList<>();
 
+    public List<Integer> spiralOrder(int[][] matrix) {
+        // 模拟进行输出
+        if (matrix.length == 0) {
+            return res;
+        }
+        int xLimit = matrix.length;
+        int yLimit = matrix[0].length;
+        int nowX = 0, nowY = 0;
+        while (xLimit > 0 && yLimit > 0) {
+            // 向右侧旋转出输
+            for (int i = 0; i < yLimit - 1; i++) {
+                res.add(matrix[nowX][nowY]);
+                nowY++;
+            }
+            if (xLimit == 1) {
+                res.add(matrix[nowX][nowY]);
+                break;
+            }
+            // 向下侧旋转输出
+            for (int i = 0; i < xLimit - 1; i++) {
+                res.add(matrix[nowX][nowY]);
+                nowX++;
+            }
+            if (yLimit == 1) {
+                res.add(matrix[nowX][nowY]);
+                break;
+            }
+            // 向左侧旋转输出
+            for (int i = 0; i < yLimit - 1; i++) {
+                res.add(matrix[nowX][nowY]);
+                nowY--;
+            }
+            // 向上侧旋转输出
+            for (int i = 0; i < xLimit - 1; i++) {
+                res.add(matrix[nowX][nowY]);
+                nowX--;
+            }
+            nowX++;
+            nowY++;
+            xLimit -= 2;
+            yLimit -= 2;
+        }
+
+        return res;
     }
 }
-// @lc code=end
-
