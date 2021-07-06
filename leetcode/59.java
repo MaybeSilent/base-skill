@@ -1,3 +1,5 @@
+import jdk.internal.jshell.tool.resources.l10n;
+
 /*
  * @lc app=leetcode.cn id=59 lang=java
  *
@@ -44,8 +46,25 @@
 // @lc code=start
 class Solution {
     public int[][] generateMatrix(int n) {
-
+        int[][] direction = new int[][] { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        int[][] res = new int[n][n];
+        int num = n * n;
+        int nowX = 0, nowY = 0;
+        int dirIndex = 0;
+        for (int i = 0; i < num; i++) {
+            res[nowX][nowY] = i + 1;
+            // System.out.println(res[nowX][nowY]);
+            int nextX = nowX + direction[dirIndex][0];
+            int nextY = nowY + direction[dirIndex][1];
+            if (nextX >= n || nextX < 0 || nextY >= n || nextY < 0 || res[nextX][nextY] != 0) {
+                dirIndex = (dirIndex + 1) % 4;
+                nextX = nowX + direction[dirIndex][0];
+                nextY = nowY + direction[dirIndex][1];
+            }
+            nowX = nextX;
+            nowY = nextY;
+        }
+        return res;
     }
 }
 // @lc code=end
-
