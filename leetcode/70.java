@@ -42,8 +42,13 @@
 // @lc code=start
 class Solution {
     public int climbStairs(int n) {
-
+        int before = 1, now = 1;
+        for (int i = 1; i < n; i++) {
+            int next = before + now;
+            before = now;
+            now = next;
+        }
+        return now;
     }
 }
 // @lc code=end
-

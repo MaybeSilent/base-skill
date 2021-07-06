@@ -37,8 +37,9 @@
 
 // @lc code=start
 class Solution {
+    // 二分相关
     public int mySqrt(int x) {
-
+        // 
     }
 }
 // @lc code=end

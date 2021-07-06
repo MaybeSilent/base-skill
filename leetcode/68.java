@@ -81,8 +81,11 @@
 // @lc code=start
 class Solution {
     public List<String> fullJustify(String[] words, int maxWidth) {
-
+        int index = 0;
+        while (index < words.length) {
+            // 将words中的单词全部插入
+            
+        }
     }
 }
 // @lc code=end
-
