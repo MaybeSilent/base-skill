@@ -44,8 +44,45 @@
 // @lc code=start
 class Solution {
     public String addBinary(String a, String b) {
+        char[] aStr = reverseChar(a.toCharArray());
+        char[] bStr = reverseChar(b.toCharArray());
 
+        int len = Math.max(aStr.length, bStr.length);
+
+        int[] res = new int[len + 1];
+        int add = 0;
+
+        for (int i = 0; i < res.length; i++) {
+            res[i] += add;
+            if (i < aStr.length && aStr[i] == '1')
+                res[i]++;
+            if (i < bStr.length && bStr[i] == '1')
+                res[i]++;
+            add = res[i] / 2;
+            res[i] = res[i] % 2;
+        }
+
+        StringBuffer sb = new StringBuffer();
+        int index = res.length - 1;
+        while (index >= 0 && res[index] == 0)
+            index--;
+        while (index >= 0) {
+            sb.append((char) (res[index--] + '0'));
+        }
+        return sb.length() == 0 ? "0" : sb.toString();
+    }
+
+    private char[] reverseChar(char[] reverse) {
+        int start = 0, end = reverse.length - 1;
+        char temp;
+        while (start < end) {
+            temp = reverse[end];
+            reverse[end] = reverse[start];
+            reverse[start] = temp;
+            start++;
+            end--;
+        }
+        return reverse;
     }
 }
 // @lc code=end
-
