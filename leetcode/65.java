@@ -98,9 +98,104 @@
 
 // @lc code=start
 class Solution {
+    // 状态机跳转模拟
     public boolean isNumber(String s) {
+        int state = 0;
+        // state : 0
+        // 1 : 开始时的正负号
+        // 2 : 小数点前数字
+        // 3 : 小数点
+        // 4 -- : 前面无数字小数点
+        // 5 : 小数点后数字
+        // 6 : e
+        // 7 : +-
+        // 8 : 数字
+        char[] str = s.toCharArray();
+        for (int i = 0; i < str.length; i++) {
+            switch (state) {
+                case 0:
+                    if (str[i] == '+' || str[i] == '-') {
+                        state = 1;
+                    } else if (str[i] >= '0' && str[i] <= '9') {
+                        state = 2;
+                    } else if (str[i] == '.') {
+                        state = 4;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 1:
+                    if (str[i] >= '0' && str[i] <= '9') {
+                        state = 2;
+                    } else if (str[i] == '.') {
+                        state = 4;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 2: // 2 : 小数点前数字
+                    if (str[i] >= '0' && str[i] <= '9') {
+                        state = 2;
+                    } else if (str[i] == '.') {
+                        state = 3;
+                    } else if (str[i] == 'e' || str[i] == 'E') {
+                        state = 6;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 3: // 3 : 小数点
+                    if (str[i] >= '0' && str[i] <= '9') {
+                        state = 5;
+                    } else if (str[i] == 'e' || str[i] == 'E') {
+                        state = 6;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 4: // 4 -- : 前面无数字小数点
+                    if (str[i] >= '0' && str[i] <= '9') {
+                        state = 5;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 5: // 5 : 小数点后数字
+                    if (str[i] >= '0' && str[i] <= '9') {
+                        state = 5;
+                    } else if (str[i] == 'e' || str[i] == 'E') {
+                        state = 6;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 6:
+                    if (str[i] == '+' || str[i] == '-') {
+                        state = 7;
+                    } else if (str[i] >= '0' && str[i] <= '9') {
+                        state = 8;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 7:
+                    if (str[i] >= '0' && str[i] <= '9') {
+                        state = 8;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case 8:
+                    if (str[i] >= '0' && str[i] <= '9') {
+                        state = 8;
+                    } else {
+                        return false;
+                    }
+                    break;
+            }
+        }
 
+        return state == 2 || state == 3 || state == 5 || state == 8;
     }
 }
 // @lc code=end
-
