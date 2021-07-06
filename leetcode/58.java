@@ -47,8 +47,16 @@
 // @lc code=start
 class Solution {
     public int lengthOfLastWord(String s) {
-
+        int index = s.length() - 1;
+        char[] sChar = s.toCharArray();
+        while (index >= 0 && sChar[index] == ' ')
+            index--;
+        int res = 0;
+        while (index >= 0 && sChar[index] != ' ') {
+            res++;
+            index--;
+        }
+        return res;
     }
 }
 // @lc code=end
-
