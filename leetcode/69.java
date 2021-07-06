@@ -39,8 +39,19 @@
 class Solution {
     // 二分相关
     public int mySqrt(int x) {
-        // 
+        // 进行开方
+        long start = 0, end = x;
+        while (start <= end) {
+            long mid = (end - start) / 2 + start;
+            if (mid * mid > x) {
+                end = mid - 1;
+            } else if (mid * mid < x) {
+                start = mid + 1;
+            } else {
+                return (int)mid;
+            }
+        }
+        return (int)end;
     }
 }
 // @lc code=end
-
