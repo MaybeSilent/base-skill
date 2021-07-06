@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*
  * @lc app=leetcode.cn id=60 lang=java
  *
@@ -65,8 +67,41 @@
 // @lc code=start
 class Solution {
     public String getPermutation(int n, int k) {
+        char[] res = new char[n];
+        for (int i = 0; i < n; i++) {
+            res[i] = (char) (i + 1 + '0');
+        }
 
+        int idx = 0;
+        while (k > 1) {
+            int sum = fac(n - idx - 1);
+            int i = 0;
+            while (k > sum) {
+                k -= sum;
+                i++;
+            }
+
+            swap(res, idx, idx + i);
+            idx++;
+
+            Arrays.sort(res, idx, res.length);
+        }
+
+        return new String(res);
+    }
+
+    private void swap(char[] str, int i, int j) {
+        char temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
+    }
+
+    private int fac(int n) {
+        int res = 1;
+        for (int i = 1; i <= n; i++) {
+            res *= i;
+        }
+        return res;
     }
 }
 // @lc code=end
-

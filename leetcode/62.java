@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*
  * @lc app=leetcode.cn id=62 lang=java
  *
@@ -66,8 +68,15 @@
 // @lc code=start
 class Solution {
     public int uniquePaths(int m, int n) {
+        int[] numPath = new int[n];
+        Arrays.fill(numPath, 1);
 
+        for (int i = 0; i < m - 1; i++) {
+            for (int j = 1; j < n; j++) {
+                numPath[j] = numPath[j - 1] + numPath[j];
+            }
+        }
+        return numPath[n - 1];
     }
 }
 // @lc code=end
-

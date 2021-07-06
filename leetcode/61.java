@@ -45,19 +45,41 @@
 
 // @lc code=start
 /**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
+ * Definition for singly-linked list. public class ListNode { int val; ListNode
+ * next; ListNode() {} ListNode(int val) { this.val = val; } ListNode(int val,
+ * ListNode next) { this.val = val; this.next = next; } }
  */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
+        if (head == null)
+            return head;
 
+        ListNode loop = head;
+        ListNode last = head;
+
+        int nodeCount = 0;
+        while (loop != null) {
+            last = loop;
+            loop = loop.next;
+            nodeCount++;
+        }
+
+        k = k % nodeCount;
+        if (k == 0) {
+            return head;
+        }
+
+        ListNode next = head;
+        int pos = nodeCount - k - 1;
+        for (int i = 0; i < pos; i++) {
+            next = next.next;
+        }
+
+        ListNode newHead = next.next;
+        next.next = null;
+        last.next = head;
+
+        return newHead;
     }
 }
 // @lc code=end
-
