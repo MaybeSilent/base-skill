@@ -1,5 +1,3 @@
-import jdk.internal.jshell.tool.resources.l10n;
-
 /*
  * @lc app=leetcode.cn id=59 lang=java
  *
