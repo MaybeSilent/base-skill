@@ -77,8 +77,29 @@
 // @lc code=start
 class Solution {
     public String simplifyPath(String path) {
+        StringBuffer sb = new StringBuffer();
+        String[] splits = path.split("/");
 
+        int slow = 0, fast = 0;
+        while (fast < splits.length) {
+            if (!(splits[fast].equals(".") || splits[fast].equals(""))) {
+                if (splits[fast].equals("..")) {
+                    slow--;
+                    if (slow < 0)
+                        slow = 0;
+                } else {
+                    splits[slow++] = splits[fast];
+                }
+            }
+            fast++;
+        }
+
+        for (int i = 0; i < slow; i++) {
+            sb.append('/');
+            sb.append(splits[i]);
+        }
+
+        return sb.length() == 0 ? "/" : sb.toString();
     }
 }
 // @lc code=end
-
