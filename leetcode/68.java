@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=68 lang=java
  *
@@ -81,11 +85,52 @@
 // @lc code=start
 class Solution {
     public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> res = new ArrayList<>();
+
         int index = 0;
         while (index < words.length) {
             // 将words中的单词全部插入
-            
+            StringBuffer lineStrbuf = new StringBuffer();
+            lineStrbuf.append(words[index]);
+
+            int lineLen = maxWidth;
+            lineLen -= words[index].length();
+
+            int count = 1;
+            while (index + count < words.length && lineLen >= words[index + count].length() + 1) {
+                lineLen -= (words[index + count].length() + 1);
+                count++;
+            }
+
+            boolean needLeft = index + count < words.length; // 标志是否需要左对齐
+            int spaceCount = count == 1 ? 1 : needLeft ? count - 1 : count;
+
+            int[] spaceNums = new int[spaceCount];
+
+            if (needLeft) {
+                int base = lineLen / spaceCount;
+                int more = lineLen % spaceCount;
+                Arrays.fill(spaceNums, count == 1 ? base : base + 1);
+                for (int i = 0; i < more; i++) {
+                    spaceNums[i] += 1;
+                }
+            } else {
+                Arrays.fill(spaceNums, 1);
+                spaceNums[spaceCount - 1] = lineLen;
+            }
+
+            for (int i = 0; i < spaceCount; i++) {
+                for (int j = 0; j < spaceNums[i]; j++) {
+                    lineStrbuf.append(' ');
+                }
+                if (i + 1 < count) {
+                    lineStrbuf.append(words[index + i + 1]);
+                }
+            }
+            index += count;
+            res.add(lineStrbuf.toString());
         }
+        return res;
     }
 }
 // @lc code=end
