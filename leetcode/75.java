@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*
  * @lc app=leetcode.cn id=75 lang=java
  *
@@ -74,8 +76,16 @@
 // @lc code=start
 class Solution {
     public void sortColors(int[] nums) {
-
+        int white = 0, blue = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0)
+                white++;
+            else if (nums[i] == 2)
+                blue++;
+        }
+        Arrays.fill(nums, 1);
+        Arrays.fill(nums, 0, white, 0);
+        Arrays.fill(nums, nums.length - blue, nums.length, 2);
     }
 }
 // @lc code=end
-
