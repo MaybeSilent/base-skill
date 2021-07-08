@@ -52,8 +52,20 @@
 // @lc code=start
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-
+        int m = matrix.length;
+        int n = matrix[0].length;
+        // 从左到右
+        int startX = 0, startY = n - 1;
+        while (startX < m && startY >= 0) {
+            if (matrix[startX][startY] == target) {
+                return true;
+            } else if (matrix[startX][startY] > target) {
+                startY--;
+            } else {
+                startX++;
+            }
+        }
+        return false;
     }
 }
 // @lc code=end
-

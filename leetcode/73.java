@@ -1,7 +1,5 @@
 import java.util.Arrays;
 
-import org.graalvm.compiler.core.match.MatchRule;
-
 /*
  * @lc app=leetcode.cn id=73 lang=java
  *
