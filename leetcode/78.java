@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=78 lang=java
  *
@@ -47,9 +50,26 @@
 
 // @lc code=start
 class Solution {
-    public List<List<Integer>> subsets(int[] nums) {
+    List<List<Integer>> res = new ArrayList<>();
 
+    public List<List<Integer>> subsets(int[] nums) {
+        ArrayList<Integer> temp = new ArrayList<>();
+        for (int i = 0; i <= nums.length; i++) {
+            dfs(nums, 0, temp, i);
+        }
+        return res;
+    }
+
+    private void dfs(int[] nums, int index, ArrayList<Integer> list, int k) {
+        if (list.size() == k) {
+            res.add((List<Integer>) list.clone());
+            return;
+        }
+        for (int i = index; i < nums.length; i++) {
+            list.add(nums[i]);
+            dfs(nums, i + 1, list, k);
+            list.remove(list.size() - 1);
+        }
     }
 }
 // @lc code=end
-
