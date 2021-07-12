@@ -49,8 +49,40 @@
 // @lc code=start
 class Solution {
     public String minWindow(String s, String t) {
+        char[] sStr = s.toCharArray();
+        char[] tStr = t.toCharArray();
 
+        int count = tStr.length;
+        int[] tStrCount = new int[256];
+
+        for (int i = 0; i < tStr.length; i++) {
+            tStrCount[tStr[i]]++;
+        }
+        int resStart = 0, resEnd = Integer.MAX_VALUE;
+
+        int start = 0, end = 0;
+        while (end < sStr.length) {
+            if (tStrCount[sStr[end]] > 0) {
+                count--;
+            }
+
+            tStrCount[sStr[end]]--;
+
+            if (count == 0) {
+                while (tStrCount[sStr[start]] < 0) {
+                    tStrCount[sStr[start]] += 1;
+                    start++;
+                }
+                if (end - start < resEnd - resStart) {
+                    resEnd = end;
+                    resStart = start;
+                }
+            }
+
+            end++;
+        }
+
+        return resEnd == Integer.MAX_VALUE ? "" : s.substring(resStart, resEnd + 1);
     }
 }
 // @lc code=end
-
