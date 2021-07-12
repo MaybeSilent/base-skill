@@ -64,8 +64,45 @@
 
 // @lc code=start
 class Solution {
+    int[][] direction = new int[][]{{1, 0}, {0,1}, {-1, 0}, {0, -1}};
+    
     public boolean exist(char[][] board, String word) {
+        char[] wordStr = word.toCharArray();
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j ++) {
+                boolean res = dfs(board, i, j, wordStr, 0, visited);
+                if (res) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
+    private boolean dfs(char[][] board, int x, int y, char[] value, int index, boolean[][] visited) {
+        if (index == value.length) {
+            return true;
+        }
+
+        if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) {
+            return false;
+        }
+
+        if (visited[x][y] || board[x][y] != value[index]) {
+            return false;
+        }
+
+        visited[x][y] = true;
+        // 往4个方向进行dfs遍历
+        for (int i = 0; i < 4; i ++) {
+            boolean res = dfs(board, x + direction[i][0], y + direction[i][1], value, index + 1, visited);
+            if (res) {
+                return res;
+            }
+        }
+        visited[x][y] = false;
+        return false;
     }
 }
 // @lc code=end
