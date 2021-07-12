@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /*
  * @lc app=leetcode.cn id=47 lang=java

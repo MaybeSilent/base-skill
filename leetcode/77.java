@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=77 lang=java
  *
@@ -32,9 +35,29 @@
 
 // @lc code=start
 class Solution {
-    public List<List<Integer>> combine(int n, int k) {
 
+    List<List<Integer>> res = new ArrayList<>();
+
+    public List<List<Integer>> combine(int n, int k) {
+        int[] nums = new int[n];
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = i + 1;
+        }
+
+        dfs(nums, 0, new ArrayList<>(), k);
+        return res;
+    }
+
+    private void dfs(int[] nums, int index, ArrayList<Integer> list, int k) {
+        if (list.size() == k) {
+            res.add((List<Integer>) list.clone());
+            return;
+        }
+        for (int i = index; i < nums.length; i++) {
+            list.add(nums[i]);
+            dfs(nums, i + 1, list, k);
+            list.remove(list.size() - 1);
+        }
     }
 }
 // @lc code=end
-
