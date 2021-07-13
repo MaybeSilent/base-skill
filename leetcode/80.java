@@ -73,8 +73,17 @@
 // @lc code=start
 class Solution {
     public int removeDuplicates(int[] nums) {
-
+        int fast = 0, slow = 0;
+        while (fast < nums.length) {
+            if (slow < fast) {
+                if (nums[slow] != nums[fast] || slow == 0
+                        || (nums[slow] == nums[fast] && nums[slow] != nums[slow - 1])) {
+                    nums[++slow] = nums[fast];
+                }
+            }
+            fast++;
+        }
+        return slow + 1;
     }
 }
 // @lc code=end
-
