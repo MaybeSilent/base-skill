@@ -53,12 +53,24 @@
  */
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        ListNode fast = head, slow = head;
-        while (fast != null) {
+        ListNode temp = new ListNode();
+        temp.next = head;
 
+        ListNode prev = temp;
+        while (prev.next != null && prev.next.next != null) {
+            if (prev.next.val == prev.next.next.val) {
+                ListNode next = prev.next.next;
+                int val = next.val;
+                while (next != null && next.val == val) {
+                    next = next.next;
+                }
+                prev.next = next;
+            } else {
+                prev = prev.next;
+            }
         }
 
-        return slow;
+        return temp.next;
     }
 }
 // @lc code=end
