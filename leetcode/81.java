@@ -1,3 +1,5 @@
+import jdk.javadoc.internal.tool.Start;
+
 /*
  * @lc app=leetcode.cn id=81 lang=java
  *
@@ -62,8 +64,52 @@
 // @lc code=start
 class Solution {
     public boolean search(int[] nums, int target) {
+        int index = split(nums);
+        if (index <= 0) {
+            return findNum(nums, target, 0, nums.length - 1);
+        }
+        if (target >= nums[0]) {
+            return findNum(nums, target, 0, index - 1);
+        }
+        return findNum(nums, target, index, nums.length - 1);
+    }
 
+    // 先找出旋转的点
+    public int split(int[] nums) {
+        int start = 0, end = nums.length - 1;
+        while (start < end) {
+            int mid = (end - start) / 2 + start;
+            if (nums[mid] < nums[start]) {
+                end = mid;
+            } else if (nums[mid] > nums[start]) {
+                start = mid;
+            } else { // 相等的情况下退化
+                for (int i = start + 1; i <= end; i++) {
+                    if (nums[i] < nums[i - 1]) {
+                        return i;
+                    }
+                }
+
+                return 0;
+            }
+        }
+
+        return 0;
+    }
+
+    // 二分查找相应的内容
+    public boolean findNum(int[] nums, int target, int start, int end) {
+        while (start <= end) {
+            int mid = (end - start) / 2 + start;
+            if (nums[mid] < target) {
+                start = mid + 1;
+            } else if (nums[mid] > target) {
+                end = mid - 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 }
 // @lc code=end
-
