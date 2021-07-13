@@ -41,7 +41,7 @@
 // @lc code=start
 class Solution {
     public int largestRectangleArea(int[] heights) {
-
+        
     }
 }
 // @lc code=end
