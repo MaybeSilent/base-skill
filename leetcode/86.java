@@ -53,11 +53,31 @@
  */
 class Solution {
     public ListNode partition(ListNode head, int x) {
-        // 找到value为x的第一个节点
-        // ListNode xNode =
-        // 将head中大于x的值插入x的next中
+        ListNode res = new ListNode();
+        res.next = head;
 
-        // 将x后比x小的节点进行前置插入
+        // prev前置相关节点
+        ListNode prev = res;
+        while (prev.next != null && prev.next.val < x) {
+            prev = prev.next;
+        }
+
+        // 小于的节点全部插入到prev中
+        ListNode curNode = prev.next;
+        while (curNode != null && curNode.next != null) {
+            if (curNode.next.val < x) {
+                // 进行节点的移动
+                ListNode moveNode = curNode.next;
+                curNode.next = moveNode.next;
+                moveNode.next = prev.next;
+                prev.next = moveNode;
+                prev = moveNode;
+            } else {
+                curNode = curNode.next;
+            }
+        }
+
+        return res.next;
     }
 }
 // @lc code=end
