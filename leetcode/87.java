@@ -76,8 +76,60 @@
 // @lc code=start
 class Solution {
     public boolean isScramble(String s1, String s2) {
-
+        // 字符串开头的字母应该与其余字母互相对应
+        if (s1.length() != s2.length()) {
+            return false;
+        }
+        int[][][] resMap = new int[s1.length()][s1.length()][s1.length() + 1];
+        return isLegal(resMap, s1.toCharArray(), s2.toCharArray(), 0, 0, s1.length());
     }
+
+    // 递归查询并比较字符数组是否一致
+    private boolean isLegal(int[][][] resMap, char[] s1, char[] s2, int start1, int start2, int len) {
+
+        if (resMap[start1][start2][len] != 0) {
+            return resMap[start1][start2][len] == 1;
+        }
+
+        if (len <= 0) {
+            resMap[start1][start2][len] = 1;
+            return true;
+        }
+
+        if (len == 1) {
+            resMap[start1][start2][len] = s1[start1] == s2[start2] ? 1 : -1;
+            return s1[start1] == s2[start2];
+        }
+        // 校验两个子字符串
+        int[] value = new int[256];
+        for (int i = 0; i < len; i++) {
+            value[s1[start1 + i]]++;
+        }
+        for (int i = 0; i < len; i++) {
+            value[s2[start2 + i]]--;
+            if (value[s2[start2 + i]] < 0) {
+                resMap[start1][start2][len] = -1;
+                return false;
+            }
+        }
+
+        for (int i = 1; i < len; i++) {
+
+            if (isLegal(resMap, s1, s2, start1, start2, i)
+                    && isLegal(resMap, s1, s2, start1 + i, start2 + i, len - i)) {
+                resMap[start1][start2][len] = 1;
+                return true;
+            }
+
+            if (isLegal(resMap, s1, s2, start1, start2 + len - i, i)
+                    && isLegal(resMap, s1, s2, start1 + i, start2, len - i)) {
+                resMap[start1][start2][len] = 1;
+                return true;
+            }
+        }
+        resMap[start1][start2][len] = -1;
+        return false;
+    }
+
 }
 // @lc code=end
-
