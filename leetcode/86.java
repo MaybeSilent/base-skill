@@ -47,19 +47,17 @@
 
 // @lc code=start
 /**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
+ * Definition for singly-linked list. public class ListNode { int val; ListNode
+ * next; ListNode() {} ListNode(int val) { this.val = val; } ListNode(int val,
+ * ListNode next) { this.val = val; this.next = next; } }
  */
 class Solution {
     public ListNode partition(ListNode head, int x) {
-        
+        // 找到value为x的第一个节点
+        // ListNode xNode =
+        // 将head中大于x的值插入x的next中
+
+        // 将x后比x小的节点进行前置插入
     }
 }
 // @lc code=end
-
