@@ -70,7 +70,7 @@
 // @lc code=start
 class Solution {
     public int maximalRectangle(char[][] matrix) {
-
+        
     }
 }
 // @lc code=end

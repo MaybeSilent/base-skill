@@ -1,3 +1,5 @@
+import jdk.javadoc.internal.tool.Start;
+
 /*
  * @lc app=leetcode.cn id=84 lang=java
  *
@@ -41,8 +43,27 @@
 // @lc code=start
 class Solution {
     public int largestRectangleArea(int[] heights) {
-        
+        int[] stack = new int[heights.length + 1]; // 构造一个递增的栈来解决面积
+        stack[0] = -1;
+        int index = 0;
+
+        int res = 0; // 记录结果res
+        for (int i = 0; i < heights.length; i++) {
+            if (index > 0 && heights[i] < heights[stack[index]]) {
+                while (index > 0 && heights[i] < heights[stack[index]]) {
+                    res = Math.max(heights[stack[index]] * (i - stack[index - 1] - 1), res);
+                    index--;
+                }
+            }
+            stack[++index] = i;
+        }
+
+        while (index > 0) {
+            res = Math.max(heights[stack[index]] * (heights.length - stack[index - 1] - 1), res);
+            index--;
+        }
+
+        return res;
     }
 }
 // @lc code=end
-

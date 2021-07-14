@@ -58,7 +58,7 @@
  */
 class Solution {
     public ListNode partition(ListNode head, int x) {
-
+        
     }
 }
 // @lc code=end
