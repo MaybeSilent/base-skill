@@ -51,8 +51,16 @@
 // @lc code=start
 class Solution {
     public void merge(int[] nums1, int m, int[] nums2, int n) {
-
+        int index = m + n - 1;
+        int num1Index = m - 1;
+        int num2Index = n - 1;
+        while (index >= 0) {
+            if (num2Index >= 0 && (num1Index < 0 || nums1[num1Index] <= nums2[num2Index])) {
+                nums1[index--] = nums2[num2Index--];
+            } else {
+                nums1[index--] = nums1[num1Index--];
+            }
+        }
     }
 }
 // @lc code=end
-
