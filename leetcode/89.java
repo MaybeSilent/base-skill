@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=89 lang=java
  *
@@ -53,8 +56,46 @@
 // @lc code=start
 class Solution {
     public List<Integer> grayCode(int n) {
+        List<String> strRes = getCode(n);
+        List<Integer> res = new ArrayList<>();
 
+        for (String str : strRes) {
+            res.add(convertStrToInt(str));
+        }
+        return res;
+    }
+
+    public List<String> getCode(int n) {
+        List<String> res = new ArrayList<>();
+        if (n == 0) {
+            res.add("");
+            return res;
+        }
+
+        List<String> sub = getCode(n - 1);
+
+        int len = sub.size();
+        for (int i = 0; i < len; i++) {
+            res.add("0" + sub.get(i));
+        }
+
+        for (int i = len - 1; i >= 0; i--) {
+            res.add("1" + sub.get(i));
+        }
+        return res;
+    }
+
+    public int convertStrToInt(String s) {
+        char[] sChar = s.toCharArray();
+        int val = 1;
+        int res = 0;
+        for (int i = sChar.length - 1; i >= 0; i--) {
+            if (sChar[i] == '1') {
+                res += val;
+            }
+            val *= 2;
+        }
+        return res;
     }
 }
 // @lc code=end
-
