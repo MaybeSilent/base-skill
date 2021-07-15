@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 /*
  * @lc app=leetcode.cn id=90 lang=java
  *
@@ -50,9 +53,35 @@
 
 // @lc code=start
 class Solution {
-    public List<List<Integer>> subsetsWithDup(int[] nums) {
 
+    List<List<Integer>> res = new ArrayList<>();
+
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = 0; i <= nums.length; i++) {
+            dfs(nums, new ArrayList<>(), 0, i);
+        }
+        return res;
+    }
+
+    public void dfs(int[] nums, ArrayList<Integer> val, int index, int k) {
+        if (val.size() == k) {
+            res.add((List<Integer>) val.clone());
+            return;
+        }
+        
+        if (nums.length - index < k - val.size()) {
+            return;
+        }
+
+        for (int i = index; i < nums.length; i++) {
+            if (i > index && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            val.add(nums[i]);
+            dfs(nums, val, i + 1, k);
+            val.remove(val.size() - 1);
+        }
     }
 }
 // @lc code=end
-
