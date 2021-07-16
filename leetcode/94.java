@@ -1,3 +1,9 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import apple.laf.JRSUIUtils.Tree;
+
 /*
  * @lc app=leetcode.cn id=94 lang=java
  *
@@ -69,24 +75,61 @@
 
 // @lc code=start
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
+ * Definition for a binary tree node. public class TreeNode { int val; TreeNode
+ * left; TreeNode right; TreeNode() {} TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.left
+ * = left; this.right = right; } }
  */
 class Solution {
-    public List<Integer> inorderTraversal(TreeNode root) {
+    List<Integer> res = new ArrayList<>();
 
+    public List<Integer> inorderTraversal(TreeNode root) {
+        if (root == null) {
+            return res;
+        }
+
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        stack.add(root);
+
+        while (stack.size() > 0) {
+            TreeNode curNode = stack.getLast();
+            while (curNode.left != null) {
+                // System.out.println(">>>>>");
+                stack.add(curNode.left);
+                curNode = curNode.left;
+            }
+
+            // System.out.println("!!!");
+            TreeNode lastNode = stack.removeLast();
+            while (lastNode != null) {
+                // System.out.println(lastNode.val);
+                res.add(lastNode.val);
+                if (lastNode.right != null) {
+                    // System.out.println("<<<<<");
+                    stack.add(lastNode.right);
+                    break;
+                }
+                if (stack.size() > 0) {
+                    lastNode = stack.removeLast();
+                } else {
+                    lastNode = null;
+                }
+
+            }
+
+        }
+
+        return res;
+    }
+
+    public List<Integer> inorderTraversalRecursive(TreeNode root) {
+        if (root == null) {
+            return res;
+        }
+        inorderTraversal(root.left);
+        res.add(root.val);
+        inorderTraversal(root.right);
+        return res;
     }
 }
 // @lc code=end
-
