@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*
  * @lc app=leetcode.cn id=91 lang=java
  *
@@ -84,8 +86,37 @@
 // @lc code=start
 class Solution {
     public int numDecodings(String s) {
+        char[] sStr = s.toCharArray();
+        int[] value = new int[s.length()];
+        Arrays.fill(value, -1);
+        return decodes(sStr, value, 0);
+    }
 
+    public int decodes(char[] sStr, int[] value, int index) {
+
+        if (index >= sStr.length) {
+            return 1;
+        }
+
+        if (value[index] != -1) {
+            return value[index];
+        }
+
+        if (sStr.length - 1 == index) {
+            if (sStr[index] == '0') {
+                return 0;
+            }
+            return 1;
+        }
+
+        int oneCharCount = sStr[index] == '0' ? 0 : decodes(sStr, value, index + 1);
+        int twoCharCount = isValidTwoChar(sStr, index) ? decodes(sStr, value, index + 2) : 0;
+        value[index] = oneCharCount + twoCharCount;
+        return oneCharCount + twoCharCount;
+    }
+
+    public boolean isValidTwoChar(char[] sStr, int index) {
+        return sStr[index] == '1' || (sStr[index] == '2' && sStr[index + 1] >= '0' && sStr[index + 1] <= '6');
     }
 }
 // @lc code=end
-
