@@ -50,19 +50,40 @@
 
 // @lc code=start
 /**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
+ * Definition for singly-linked list. public class ListNode { int val; ListNode
+ * next; ListNode() {} ListNode(int val) { this.val = val; } ListNode(int val,
+ * ListNode next) { this.val = val; this.next = next; } }
  */
 class Solution {
     public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode prev = new ListNode();
+        prev.next = head;
 
+        ListNode resNode = prev;
+        int index = 0;
+        while (index != left - 1) {
+            index++;
+            prev = prev.next;
+        }
+
+        ListNode begin = prev;
+
+        prev = prev.next;
+        index++;
+        ListNode curNode = prev.next;
+        while (index < right) {
+            ListNode nextNode = curNode.next;
+            curNode.next = prev;
+            prev = curNode;
+            curNode = nextNode;
+            index++;
+        }
+
+        ListNode start = begin.next;
+        start.next = curNode;
+        begin.next = prev;
+
+        return resNode.next;
     }
 }
 // @lc code=end
-
