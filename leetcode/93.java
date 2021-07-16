@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /*
  * @lc app=leetcode.cn id=93 lang=java
  *
@@ -70,9 +72,54 @@
 
 // @lc code=start
 class Solution {
-    public List<String> restoreIpAddresses(String s) {
+    List<String> res = new ArrayList<>();
 
+    public List<String> restoreIpAddresses(String s) {
+        if (s.length() < 4 || s.length() > 12) {
+            return res;
+        }
+        dfs(s.toCharArray(), new StringBuffer(), 0, 0);
+        return res;
+    }
+
+    public void dfs(char[] sStr, StringBuffer sb, int index, int count) {
+        if (count == 3) {
+            int len = sStr.length - index;
+            if (isValidSub(sStr, index, len)) {
+                int start = sb.length();
+                sb.append(sStr, index, len);
+                res.add(sb.toString());
+                sb.delete(start, start + len);
+            }
+            return;
+        }
+        for (int i = 1; i <= 3; i++) {
+            if (isValidSub(sStr, index, i)) {
+                int start = sb.length();
+                sb.append(sStr, index, i);
+                sb.append('.');
+                dfs(sStr, sb, index + i, count + 1);
+                sb.delete(start, start + i + 1);
+            }
+        }
+    }
+
+    public boolean isValidSub(char[] sStr, int index, int len) {
+        if (index + len > sStr.length) {
+            return false;
+        }
+        if (len == 1) {
+            return sStr[index] >= '0' && sStr[index] <= '9';
+        } else if (len == 2) {
+            return sStr[index] >= '1' && sStr[index] <= '9' && sStr[index + 1] >= '0' && sStr[index + 1] <= '9';
+        } else if (len == 3) {
+            return (sStr[index] == '1' && sStr[index + 1] >= '0' && sStr[index + 1] <= '9' && sStr[index + 2] >= '0'
+                    && sStr[index + 2] <= '9')
+                    || (sStr[index] == '2' && ((sStr[index + 1] >= '0' && sStr[index + 1] <= '4'
+                            && sStr[index + 2] >= '0' && sStr[index + 2] <= '9')
+                            || (sStr[index + 1] == '5' && sStr[index + 2] >= '0' && sStr[index + 2] <= '5')));
+        }
+        return false;
     }
 }
 // @lc code=end
-
