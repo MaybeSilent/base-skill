@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=95 lang=java
  *
@@ -47,24 +51,41 @@
 
 // @lc code=start
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
+ * Definition for a binary tree node. public class TreeNode { int val; TreeNode
+ * left; TreeNode right; TreeNode() {} TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.left
+ * = left; this.right = right; } }
  */
 class Solution {
     public List<TreeNode> generateTrees(int n) {
+        return generateTreeOfValue(1, n);
+    }
 
+    public List<TreeNode> generateTreeOfValue(int start, int end) {
+        List<TreeNode> res = new ArrayList<>();
+        if (start >= end) {
+            if (start == end) {
+                res.add(new TreeNode(start));
+            } else {
+                res.add(null);
+            }
+            return res;
+        }
+
+        for (int i = start; i <= end; i++) {
+
+            List<TreeNode> leftTree = generateTreeOfValue(start, i - 1);
+            List<TreeNode> rightTree = generateTreeOfValue(i + 1, end);
+            for (int j = 0; j < leftTree.size(); j++) {
+                for (int k = 0; k < rightTree.size(); k++) {
+                    TreeNode node = new TreeNode(i);
+                    node.left = leftTree.get(j);
+                    node.right = rightTree.get(k);
+                    res.add(node);
+                }
+            }
+        }
+        return res;
     }
 }
 // @lc code=end
-
