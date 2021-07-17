@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 /*
  * @lc app=leetcode.cn id=99 lang=java
  *
@@ -47,24 +49,44 @@
 
 // @lc code=start
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
+ * Definition for a binary tree node. public class TreeNode { int val; TreeNode
+ * left; TreeNode right; TreeNode() {} TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.left
+ * = left; this.right = right; } }
  */
 class Solution {
+    // 迭代遍历
     public void recoverTree(TreeNode root) {
+        TreeNode swapX = null, swapY = null;
+        TreeNode pred = null;
+        LinkedList<TreeNode> stack = new LinkedList<>();
 
+        while (!stack.isEmpty() || root != null) {
+            while (root != null) {
+                stack.add(root);
+                root = root.left;
+            }
+
+            root = stack.removeLast();
+            if (pred != null && pred.val > root.val) {
+                swapX = root;
+                if (swapY == null) {
+                    swapY = pred;
+                } else {
+                    break;
+                }
+            }
+
+            pred = root;
+            root = root.right;
+        }
+        swap(swapX, swapY);
+    }
+
+    public void swap(TreeNode a, TreeNode b) {
+        int temp = a.val;
+        a.val = b.val;
+        b.val = temp;
     }
 }
 // @lc code=end
-
