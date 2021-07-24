@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*
  * @lc app=leetcode.cn id=45 lang=java
  *
@@ -53,8 +55,41 @@
 // @lc code=start
 class Solution {
     public int jump(int[] nums) {
+        int maxPosition = 0; //
+        int end = 0; // 当前跳数的右边界
+        int step = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            maxPosition = Math.max(i + nums[i], maxPosition);
+            if (i == end) {
+                end = maxPosition;
+                step++;
+                if (maxPosition >= nums.length - 1)
+                    break;
+            }
+        }
+        return step;
+    }
 
+    public int jumpslow(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int[] minJump = new int[nums.length];
+        Arrays.fill(minJump, Integer.MAX_VALUE);
+        minJump[0] = 0;
+        // 最小的跳数
+        for (int i = 0; i < nums.length; i++) {
+            int min = minJump[i] + 1;
+            for (int j = i; j <= nums[i] + i && j < nums.length; j++) {
+                if (minJump[j] > min) {
+                    minJump[j] = min;
+                }
+                if (j == nums.length - 1) {
+                    return minJump[nums.length - 1];
+                }
+            }
+        }
+        return minJump[nums.length - 1];
     }
 }
 // @lc code=end
-

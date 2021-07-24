@@ -39,8 +39,64 @@
 // @lc code=start
 class Solution {
     public String multiply(String num1, String num2) {
+        int[] res = new int[num1.length() + num2.length()];
+        // 字符串数组
+        char[] char1Array, char2Array;
+        if (num1.length() > num2.length()) {
+            char1Array = num1.toCharArray();
+            char2Array = num2.toCharArray();
+        } else {
+            char1Array = num2.toCharArray();
+            char2Array = num1.toCharArray();
+        }
 
+        int[] num1Array = new int[char1Array.length];
+        for (int i = 0; i < char1Array.length; i++) {
+            num1Array[i] = char1Array[i] - '0';
+        }
+
+        // for (int i = 0; i < num1Array.length; i++) {
+        //     System.out.println(num1Array[i]);
+        // }
+
+        int[] num2Array = new int[char2Array.length];
+        for (int i = 0; i < num2Array.length; i++) {
+            num2Array[i] = char2Array[i] - '0';
+        }
+
+        // for (int i = 0; i < num2Array.length; i++) {
+        //     System.out.println(num2Array[i]);
+        // }
+        int allSize = num1Array.length + num2Array.length - 2;
+        for (int i = num1Array.length - 1; i >= 0; i--) {
+            for (int j = num2Array.length - 1; j >= 0; j--) {
+                res[allSize - i - j] += num1Array[i] * num2Array[j];
+            }
+        }
+
+        // for (int i = 0; i < res.length; i++) {
+        //     System.out.println(res[i]);
+        // }
+
+        for (int i = 0; i < res.length; i++) {
+            if (res[i] >= 10) {
+                res[i + 1] += (res[i] / 10);
+                res[i] = res[i] % 10;
+            }
+            res[i] += '0';
+        }
+
+        StringBuffer sb = new StringBuffer();
+
+        int index = res.length - 1;
+        while (index >= 0 && res[index] == '0')
+            index--;
+        while (index >= 0) {
+            sb.append((char) res[index--]);
+        }
+
+        return sb.length() == 0 ? "0" : sb.toString();
     }
+
 }
 // @lc code=end
-
