@@ -45,8 +45,21 @@
 // @lc code=start
 class Solution {
     public int majorityElement(int[] nums) {
-
+        int res = nums[0];
+        int count = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (res == nums[i]) {
+                count++;
+                continue;
+            } else {
+                if (count > 0) {
+                    count--;
+                } else {
+                    res = nums[i];
+                }
+            }
+        }
+        return res;
     }
 }
 // @lc code=end
-
