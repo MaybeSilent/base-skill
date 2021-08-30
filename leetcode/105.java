@@ -49,24 +49,34 @@
 
 // @lc code=start
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
+ * Definition for a binary tree node. public class TreeNode { int val; TreeNode
+ * left; TreeNode right; TreeNode() {} TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.left
+ * = left; this.right = right; } }
  */
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return buildTree(preorder, inorder, 0, 0, preorder.length);
+    }
 
+    public TreeNode buildTree(int[] preorder, int[] inorder, int preStrart, int inStart, int length) {
+        if (length == 0) {
+            return null;
+        }
+        int nodeVal = preorder[preStrart];
+        TreeNode root = new TreeNode(nodeVal);
+
+        int leftLen = 0;
+        for (int i = 0; i < length; i++) {
+            if (inorder[inStart + i] == nodeVal) {
+                leftLen = i;
+                break;
+            }
+        }
+        // 获取leftLen
+        root.left = buildTree(preorder, inorder, preStrart + 1, inStart, leftLen);
+        root.right = buildTree(preorder, inorder, preStrart + 1 + leftLen, inStart + 1 + leftLen, length - leftLen - 1);
+        return root;
     }
 }
 // @lc code=end
-

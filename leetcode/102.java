@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * @lc app=leetcode.cn id=102 lang=java
  *
@@ -42,24 +45,40 @@
 
 // @lc code=start
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
+ * Definition for a binary tree node. public class TreeNode { int val; TreeNode
+ * left; TreeNode right; TreeNode() {} TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.left
+ * = left; this.right = right; } }
  */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
+        // 通过遍历list的形式
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
 
+        List<TreeNode> nodeTree = new ArrayList<TreeNode>();
+        if (root != null) {
+            nodeTree.add(root);
+        }
+    
+        // 判断nodeTree是否非空
+        while (nodeTree.size() != 0) {
+            List<TreeNode> nextNodeTree = new ArrayList<>();
+            List<Integer> nodeRes = new ArrayList<>();
+            for (int i = 0; i < nodeTree.size(); i++) {
+                nodeRes.add(nodeTree.get(i).val);
+                if (nodeTree.get(i).left != null) {
+                    nextNodeTree.add(nodeTree.get(i).left);
+                }
+
+                if (nodeTree.get(i).right != null) {
+                    nextNodeTree.add(nodeTree.get(i).right);
+                }
+            }
+            nodeTree = nextNodeTree;
+            res.add(nodeRes);
+        }
+
+        return res;
     }
 }
 // @lc code=end
-

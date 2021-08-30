@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 /*
  * @lc app=leetcode.cn id=103 lang=java
  *
@@ -40,24 +42,54 @@
 
 // @lc code=start
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
+ * Definition for a binary tree node. public class TreeNode { int val; TreeNode
+ * left; TreeNode right; TreeNode() {} TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.left
+ * = left; this.right = right; } }
  */
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        // 通过遍历list的形式
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
 
+        List<TreeNode> nodeTree = new ArrayList<TreeNode>();
+        if (root != null) {
+            nodeTree.add(root);
+        }
+
+        // 判断nodeTree是否非空
+        while (nodeTree.size() != 0) {
+            List<TreeNode> nextNodeTree = new ArrayList<>();
+            List<Integer> nodeRes = new ArrayList<>();
+            for (int i = 0; i < nodeTree.size(); i++) {
+                nodeRes.add(nodeTree.get(i).val);
+                if (nodeTree.get(i).left != null) {
+                    nextNodeTree.add(nodeTree.get(i).left);
+                }
+
+                if (nodeTree.get(i).right != null) {
+                    nextNodeTree.add(nodeTree.get(i).right);
+                }
+            }
+            nodeTree = nextNodeTree;
+            res.add(nodeRes);
+        }
+
+        // 进行正向与逆向的加减
+        boolean reverse = false;
+        for (int i = 0; i < res.size(); i++) {
+            if (reverse) {
+                int length = res.get(i).size() / 2;
+                for (int j = 0; j < length; j++) {
+                    int tmp = res.get(i).get(j);
+                    res.get(i).set(j, res.get(i).get(res.get(i).size() - j - 1));
+                    res.get(i).set(res.get(i).size() - j - 1, tmp);
+                }
+            }
+            reverse = !reverse;
+        }
+
+        return res;
     }
 }
 // @lc code=end
-
